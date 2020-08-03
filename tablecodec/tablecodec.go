@@ -72,10 +72,10 @@ func EncodeRowKeyWithHandle(tableID int64, handle int64) kv.Key {
 // DecodeRecordKey decodes the key and gets the tableID, handle.
 func DecodeRecordKey(key kv.Key) (tableID int64, handle int64, err error) {
 	/* Your code here */
-	handle,err = DecodeRowKey(key) 
+	handle, err = DecodeRowKey(key)
 	tableID, _, _, err = DecodeKeyHead(key)
-	
-	return tableID , handle, err
+
+	return tableID, handle, err
 }
 
 // appendTableIndexPrefix appends table index prefix  "t[tableID]_i".
@@ -100,9 +100,9 @@ func DecodeIndexKeyPrefix(key kv.Key) (tableID int64, indexID int64, indexValues
 	/* Your code here */
 	isRecordKey := false
 	tableID, indexID, isRecordKey, err = DecodeKeyHead(key)
-	if isRecordKey{
-		tableID , _, err = DecodeRecordKey(key)
-	}else{
+	if isRecordKey {
+		tableID, _, err = DecodeRecordKey(key)
+	} else {
 		indexValues = CutIndexPrefix(key)
 	}
 	return tableID, indexID, indexValues, err
@@ -129,7 +129,7 @@ func DecodeIndexKey(key kv.Key) (tableID int64, indexID int64, indexValues []str
 		indexValues = append(indexValues, str)
 		key = remain
 	}
-	return 	tableID, indexID, indexValues, err
+	return tableID, indexID, indexValues, err
 }
 
 // EncodeRow encode row data and column ids into a slice of byte.
@@ -226,7 +226,7 @@ func DecodeKeyHead(key kv.Key) (tableID int64, indexID int64, isRecordKey bool, 
 		err = errors.Trace(err)
 		return
 	}
-	return 	tableID, indexID, isRecordKey, err 
+	return tableID, indexID, isRecordKey, err
 }
 
 // DecodeTableID decodes the table ID of the key, if the key is not table key, returns 0.
